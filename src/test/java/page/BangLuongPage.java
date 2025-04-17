@@ -16,7 +16,7 @@ public class BangLuongPage extends BasePage {
         super(driver);
     }
 
-    @FindBy(xpath = "//div[contains(text(),'Bảng lương')]")
+    @FindBy(xpath = "//a[@href='/salary/pay-sheet']")
     WebElement BangLuong_Button;
 
     @FindBy(xpath = "//i[@class='mdi mdi-plus mdi v-icon notranslate v-theme--lightColor7 v-icon--size-default']")
@@ -70,9 +70,28 @@ public class BangLuongPage extends BasePage {
     @FindBy(xpath = "//textarea[@class='v-field__input']")
     WebElement GhiChu_Input;
 
+    @FindBy(xpath = "//a[@href='/salary/payslip']")
+    WebElement PhieuLuong_Button;
+
+    @FindBy(xpath = "//td[2]")
+    WebElement MaPhieuLuong;
+
+    @FindBy(xpath = "//span[contains(normalize-space(),'Duyệt')]")
+    WebElement Duyet_Button;
+
+    @FindBy(xpath = "//button[@class='v-btn v-btn--slim v-theme--lightColor7 text-success v-btn--density-default rounded-lg v-btn--size-small v-btn--variant-outlined']//span[@class='v-btn__content']")
+    WebElement DongYDuyet_Button;
+
+    @FindBy(xpath = "//span[@class='v-btn__content']//i[@class='mdi mdi-check-circle mdi v-icon notranslate v-theme--lightColor7 v-icon--size-default']")
+    WebElement ChotLuong_Button;
+
+    @FindBy(xpath = "//button[@class='v-btn v-btn--slim v-theme--lightColor7 text-red v-btn--density-default rounded-lg v-btn--size-small v-btn--variant-outlined']//span[@class='v-btn__content']")
+    WebElement XacNhanChotLuong_Button;
+
 
     public void clickBangLuong() {
-        clickElement(BangLuong_Button);
+        js.executeScript("arguments[0].click();", BangLuong_Button);
+//        clickElement(BangLuong_Button);
     }
 
     public void clickThemBangLuong() {
@@ -117,11 +136,13 @@ public class BangLuongPage extends BasePage {
     }
 
     public void clickLogout() {
-        clickElement(Logout_Button);
+        js.executeScript("arguments[0].click();", Logout_Button);
+//        clickElement(Logout_Button);
     }
 
     public void clickLogoutCo() {
-        clickElement(Logout_Co_Button);
+        js.executeScript("arguments[0].click();", Logout_Co_Button);
+//        clickElement(Logout_Co_Button);
     }
 
     public void clickBangLuongID() {
@@ -139,7 +160,37 @@ public class BangLuongPage extends BasePage {
     public void clickXacNhan() {
         js.executeScript("arguments[0].click();", XacNhan_Button);
     }
+
     public void setGhiChu() {
         actions.moveToElement(GhiChu_Input).click().sendKeys("Automation test").build().perform();
     }
+
+    public void clickPhieuLuong() {
+        js.executeScript("arguments[0].click();", PhieuLuong_Button);
+//        clickElement(PhieuLuong_Button);
+    }
+
+    public void clickMaPhieuLuong() {
+        actions.moveToElement(MaPhieuLuong).click().perform();
+    }
+
+    public void clickDuyet() {
+        clickElement(Duyet_Button);
+//        actions.moveToElement(Duyet_Button).click().perform();
+//        js.executeScript("arguments[0].click();", Duyet_Button);
+    }
+
+    public void clickDongYDuyet() {
+        clickElement(DongYDuyet_Button);
+//        js.executeScript("arguments[0].click();", DongYDuyet_Button);
+    }
+
+    public void clickChotLuong() {
+        js.executeScript("arguments[0].click();", ChotLuong_Button);
+    }
+
+    public void clickXacNhanChotLuong() {
+        js.executeScript("arguments[0].click();", XacNhanChotLuong_Button);
+    }
+
 }

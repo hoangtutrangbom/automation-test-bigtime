@@ -63,6 +63,28 @@ public class BasePage {
         jsExecutor.executeScript("arguments[0].value='" + value + "';", element);
     }
 
+
+    public static void dismissChangePasswordPopup(WebDriver driver) {
+        try {
+            // Chờ popup hiển thị (tối đa 5 giây)
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+            // Tìm nút OK trong popup "Change your password"
+            WebElement okButton = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//div[contains(text(), 'Change your password')]/ancestor::div[@role='dialog']//button[.='OK']")
+            ));
+
+            // Nhấn vào nút OK
+            okButton.click();
+            System.out.println("Popup 'Change your password' đã được xử lý.");
+        } catch (TimeoutException e) {
+            System.out.println("Không thấy popup 'Change your password'. Bỏ qua.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
     // ==== Actions ====
 
     public void hoverToElement(WebElement element) {
