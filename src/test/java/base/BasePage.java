@@ -1,5 +1,7 @@
 package base;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
@@ -13,20 +15,44 @@ public class BasePage {
     protected WebDriverWait wait;
     protected Actions actions;
     protected JavascriptExecutor jsExecutor;
+    protected static final Logger logger = LogManager.getLogger(BasePage.class);
 
-    // Constructor để khởi tạo driver, wait, actions, jsExecutor
+    // Constructor
     public BasePage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         this.actions = new Actions(driver);
         this.jsExecutor = (JavascriptExecutor) driver;
         PageFactory.initElements(driver, this);
     }
+    protected void waitForOverlayToDisappear() {
+        try {
+            WebElement overlay = driver.findElement(By.cssSelector(".v-overlay__scrim"));
+            wait.until(ExpectedConditions.invisibilityOf(overlay));
+        } catch (NoSuchElementException e) {
+            // Overlay not present, can proceed
+        }
+    }
 
-    // ==== Selenium thường ====
+    // Cho phép tạo wait với timeout tuỳ chỉnh
+    protected WebDriverWait getWait(int timeoutInSeconds) {
+        return new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds));
+    }
 
-    public void sendKeys(WebElement element, String value){
+    // ========== Common Web Actions ==========
+
+    public String getText(WebElement element) {
+        String text = element.getText().trim();
+        logger.info("Get text: \"{}\"", text);
+        return text;
+    }
+
+    public void sendKeys(WebElement element, String value) {
         wait.until(ExpectedConditions.visibilityOf(element)).sendKeys(value);
+    }
+
+    public void sendKeys(WebElement element, String value, int timeout) {
+        getWait(timeout).until(ExpectedConditions.visibilityOf(element)).sendKeys(value);
     }
 
     public void setText(WebElement element, String value, boolean pressEnter) {
@@ -38,68 +64,119 @@ public class BasePage {
     }
 
     public void clickElement(WebElement element) {
-        wait.until(ExpectedConditions.elementToBeClickable(element)).click();
-    }
-
-    public boolean verifyUrl(String url) {
-        return driver.getCurrentUrl().contains(url);
-    }
-
-    public boolean isElementVisible(WebElement element) {
-        return wait.until(ExpectedConditions.visibilityOf(element)).isDisplayed();
-    }
-
-    // ==== JavaScriptExecutor ====
-
-    public void scrollToElement(WebElement element) {
-        jsExecutor.executeScript("arguments[0].scrollIntoView(true);", element);
-    }
-
-    public void clickElementByJS(WebElement element) {
-        jsExecutor.executeScript("arguments[0].click();", element);
-    }
-
-    public void setInputValueByJS(WebElement element, String value) {
-        jsExecutor.executeScript("arguments[0].value='" + value + "';", element);
-    }
-
-
-    public static void dismissChangePasswordPopup(WebDriver driver) {
         try {
-            // Chờ popup hiển thị (tối đa 5 giây)
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-
-            // Tìm nút OK trong popup "Change your password"
-            WebElement okButton = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//div[contains(text(), 'Change your password')]/ancestor::div[@role='dialog']//button[.='OK']")
-            ));
-
-            // Nhấn vào nút OK
-            okButton.click();
-            System.out.println("Popup 'Change your password' đã được xử lý.");
+            WebElement clickableElement = wait.until(ExpectedConditions.elementToBeClickable(element));
+            clickableElement.click();
+            logger.info("Clicked on element successfully.");
         } catch (TimeoutException e) {
-            System.out.println("Không thấy popup 'Change your password'. Bỏ qua.");
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error("Timeout: Element not clickable within the wait time.", e);
+            throw e;  // Thoát test và báo fail
+        } catch (ElementClickInterceptedException e) {
+            logger.error("Click intercepted: Element may be covered by another element.", e);
+            throw e;
+        } catch (Exception e) {
+            logger.error("Unexpected error occurred while clicking element.", e);
+            throw e;
         }
     }
 
+    public boolean verifyUrl(String url) {
+        boolean result = driver.getCurrentUrl().contains(url);
+        logger.info("Verify URL contains '{}': {}", url, result);
+        return result;
+    }
 
-    // ==== Actions ====
+    public boolean isElementVisible(WebElement element) {
+        try {
+            return wait.until(ExpectedConditions.visibilityOf(element)).isDisplayed();
+        } catch (Exception e) {
+            logger.warn("Element not visible: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean safeClick(WebElement element) {
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(element)).click();
+            return true;
+        } catch (Exception e) {
+            logger.warn("Safe click failed: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    // ========== JavaScriptExecutor ==========
+
+    public void scrollToElement(WebElement element, boolean center) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+        if (center) {
+            jsExecutor.executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
+        } else {
+            jsExecutor.executeScript("arguments[0].scrollIntoView(true);", element);
+        }
+    }
+
+    public void clickElementByJS(WebElement element) {
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            jsExecutor.executeScript("arguments[0].click();", element);
+            logger.info("Clicked element using JS");
+        } catch (Exception e) {
+            logger.error("JS click failed: {}", e.getMessage());
+            throw e;
+        }
+    }
+
+    public void setInputValueByJS(WebElement element, String value) {
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+        jsExecutor.executeScript("arguments[0].value='" + value + "';", element);
+        logger.info("Set input value by JS: {}", value);
+    }
+
+    public void scrollToElementAndClick(WebElement element) {
+        try {
+            scrollToElement(element, true);
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            element.click();
+            logger.info("Scrolled and clicked element");
+        } catch (Exception e) {
+            logger.error("Scroll & click failed: {}", e.getMessage());
+            throw e;
+        }
+    }
+
+    // ========== Actions ==========
+
+    public void clickAction(WebElement element) {
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+        actions.moveToElement(element).click().build().perform();
+        logger.info("Clicked using Actions");
+    }
+
+    public void clickAndSendKeysAction(WebElement element, String value) {
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+        actions.moveToElement(element).click().sendKeys(value).build().perform();
+        logger.info("Click and send keys using Actions: {}", value);
+    }
 
     public void hoverToElement(WebElement element) {
+        wait.until(ExpectedConditions.visibilityOf(element));
         actions.moveToElement(element).perform();
+        logger.info("Hovered to element");
     }
 
     public void dragAndDrop(WebElement source, WebElement target) {
         actions.dragAndDrop(source, target).perform();
+        logger.info("Dragged and dropped element");
     }
 
     public void clickAndHold(WebElement element) {
         actions.clickAndHold(element).perform();
+        logger.info("Click and hold element");
     }
 
     public void doubleClick(WebElement element) {
         actions.doubleClick(element).perform();
+        logger.info("Double-clicked element");
     }
 }

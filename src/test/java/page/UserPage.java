@@ -5,15 +5,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class DanhSachNhanVienPage extends BasePage {
+public class UserPage extends BasePage {
 
-    public DanhSachNhanVienPage(WebDriver driver) {
+    public UserPage(WebDriver driver) {
         super(driver);
     }
 
     @FindBy(xpath = "//div[contains(text(),'Danh sách nhân viên')]")
-    WebElement danhSachNhanVien_Button;
-
+    private WebElement danhSachNhanVien_Button;
 
 
     public void clickDanhSachNhanVien() {

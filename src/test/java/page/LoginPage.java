@@ -1,15 +1,17 @@
 package page;
-
+import base.BasePage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
-public class LoginPage {
+public class LoginPage extends BasePage {
 
-    private WebDriver driver;
+    private static final Logger logger = LogManager.getLogger(LoginPage.class);
 
-    // Khai báo các element cần thiết với @FindBy
+    public LoginPage(WebDriver driver) {super(driver);}
+
     @FindBy(id = "input-0")
     private WebElement emailInput;
 
@@ -19,16 +21,15 @@ public class LoginPage {
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement submitButton;
 
-    // Hàm khởi tạo
-    public LoginPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
-    }
-
-    // Hàm đăng nhập dùng chung
     public void login(String email, String password) {
-        emailInput.sendKeys(email);
-        passwordInput.sendKeys(password);
-        submitButton.click();
+        try {
+            emailInput.sendKeys(email);
+            passwordInput.sendKeys(password);
+            submitButton.click();
+            logger.info("Đăng nhập thành công với email: {}", email);
+        } catch (Exception e) {
+            logger.error("Lỗi khi đăng nhập: {}", e.getMessage());
+            throw e;
+        }
     }
 }

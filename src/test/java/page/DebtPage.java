@@ -5,30 +5,30 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class TamUngPage extends BasePage {
+public class DebtPage extends BasePage {
 
-    public TamUngPage(WebDriver driver) {
+    public DebtPage(WebDriver driver) {
         super(driver);
     }
 
     @FindBy(xpath = "//div[starts-with(text(),'Tạm ứng')]")
-    WebElement TamUng_Button;
+    private WebElement TamUng_Button;
 
 
     @FindBy(xpath = "//span[normalize-space()='Thêm']")
-    WebElement Them_Button;
+    private WebElement Them_Button;
 
     @FindBy(xpath = "(//div[@class='v-field__input'])[4]")
-    WebElement ChonNhanVien_Input;
+    private WebElement ChonNhanVien_Input;
 
     @FindBy(xpath = "//input[@type='text' and contains(@class, 'v-field__input') and @inputmode='decimal']")
-    WebElement TienTamUng_Input;
+    private  WebElement TienTamUng_Input;
 
     @FindBy(xpath = "//textarea[@class='v-field__input']")
-    WebElement GhiChu_Input;
+    private WebElement GhiChu_Input;
 
     @FindBy(xpath ="//button[@type='submit']")
-    WebElement Luu_Button;
+    private WebElement Luu_Button;
 
 
     public void clickTamUng() {

@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Bigtime Test Suite" preserve-order="true">
+    <test name="Test on Chrome">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="testcases.PaysheetTest"/>
+            <class name="testcases.AllowanceTypeTest"/>
+        </classes>
+    </test>
+</suite>

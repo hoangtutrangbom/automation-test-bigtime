@@ -59,8 +59,8 @@ public class DriverFactory {
                     throw new IllegalArgumentException("Browser không hỗ trợ: " + browser);
             }
 
-            newDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(40));
-            newDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+            newDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
+            newDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
             newDriver.manage().window().maximize();
 
             driver.set(newDriver);
@@ -69,7 +69,8 @@ public class DriverFactory {
         return driver.get();
     }
 
-    public static void quitDriver() {
+    public static void quitDriver() throws InterruptedException {
+        Thread.sleep(1000);
         if (driver.get() != null) {
             driver.get().quit();
             driver.remove();
