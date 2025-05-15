@@ -10,7 +10,6 @@ import page.HomePage;
 import page.LoginPage;
 import utils.Config;
 
-
 public class TermTest extends BaseTest {
     private static final Logger logger = LogManager.getLogger(TermTest.class);
     private HomePage homePage;
@@ -32,9 +31,10 @@ public class TermTest extends BaseTest {
         homePage.clickAdmin();
         termPage.clickDieuKhoan();
         termPage.clickThem();
-        String newName = termPage.inputRandomTieuDe("Automation test");
+        termPage.inputRandomTieuDe("Automation test");
         termPage.setNoiDungDieuKhoan();
         termPage.clickLuuDieuKhoan();
+        termPage.getToastMessageAdd();
     }
 
     @Test(priority = 2)
@@ -42,11 +42,12 @@ public class TermTest extends BaseTest {
         homePage.clickAdmin();
         termPage.clickDieuKhoan();
         termPage.clickThem();
-        String newName = termPage.inputRandomTieuDe("Automation test");
+        termPage.inputRandomTieuDe("Automation test");
         termPage.setNoiDungDieuKhoan();
         termPage.clickIconTrangThai();
         termPage.clickTrangThaiKhoa();
         termPage.clickLuuDieuKhoan();
+        termPage.getToastMessageAdd();
     }
 
     @Test()
@@ -55,5 +56,7 @@ public class TermTest extends BaseTest {
         termPage.clickDieuKhoan();
         termPage.clickXoaDieuKhoan();
         termPage.clickCo();
+        termPage.getToastMessageDelete();
+        logger.info("Xóa điều khoản thành công");
     }
 }

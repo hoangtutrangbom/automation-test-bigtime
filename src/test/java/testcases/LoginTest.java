@@ -18,6 +18,15 @@ public class LoginTest extends BaseTest {
 
     @Test
     public void testLogin() {
-        loginPage.login(Config.username, Config.password);
+        loginPage.login(Config.admin_username, Config.admin_password);
     }
+    @Test
+    public void testLoginWithEmployee() {
+        loginPage.login(Config.employee_username, Config.employee_password);
+    }
+    @Test
+    public void testLoginWithManager() {
+        loginPage.login(Config.manager_username, Config.manager_password);
+    }
+
 }

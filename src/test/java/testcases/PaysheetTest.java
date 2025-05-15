@@ -19,7 +19,6 @@ public class PaysheetTest extends BaseTest {
     private HomePage homePage;
     private LogoutPage logoutPage;
 
-
     @BeforeMethod
     public void setupBangLuongTest() {
         loginPage = new LoginPage(driver);
@@ -32,7 +31,9 @@ public class PaysheetTest extends BaseTest {
     // Duyệt lương theo quy trình Nhân viên -> Quản lý bộ phận -> Quản lý
     @Test(priority = 1)
     public void test_QuyTrinhDuyet_ChotLuong_ThanhToanLuong() throws InterruptedException {
+
         logger.info("Bắt đầu test quy trình duyệt lương, chốt lương và thanh toán lương theo quy trình Nhân viên -> Quản lý bộ phận -> Quản lý ");
+
         // Thêm bảng lương
         driver.get(Config.url);
         logger.info("Truy cập vào URL: " + Config.url);
@@ -116,7 +117,6 @@ public class PaysheetTest extends BaseTest {
         paysheetPage.clickChotLuong();
         logger.info("Click chốt lương");
         paysheetPage.clickXacNhan();
-        paysheetPage.clickXacNhanChotLuong();
         logger.info("Xác nhận chốt lương");
         paysheetPage.clickBangLuongID();
         logger.info("Click bảng lương");
@@ -124,11 +124,9 @@ public class PaysheetTest extends BaseTest {
         paysheetPage.clickThanhToan();
         logger.info("Click thanh toán");
         paysheetPage.clickTaoPhieu();
-        paysheetPage.clickLamMoi();
-        logger.info("Click vào nút làm mới");
         paysheetPage.clickLichSuThanhToan();
         logger.info("Click vào lịch sử thanh toán");
-        paysheetPage.clickLamMoi();
+
         paysheetPage.clickMaLichSuThanhToan();
         logger.info("Click vào mã lịch sử thanh toán");
 
@@ -169,8 +167,8 @@ public class PaysheetTest extends BaseTest {
         homePage.clickSalary();
         paysheetPage.clickBangLuong();
         paysheetPage.setMaBangLuong();
-        boolean ketQua = paysheetPage.isMaBangLuongHienThi("BL000001");
-        Assert.assertTrue(ketQua, "Không tìm thấy mã bảng lương BL000001");
+        boolean result = paysheetPage.isMaBangLuongHienThi("BL000001");
+        Assert.assertTrue(result, "Không tìm thấy mã bảng lương BL000001");
     }
 
     @Test(dependsOnMethods = "AddPaySheet")
@@ -182,6 +180,7 @@ public class PaysheetTest extends BaseTest {
         paysheetPage.clickBangLuongID();
         paysheetPage.clickCancel();
         paysheetPage.setReason();
+        logger.info("Nhập lý do hủy bảng lương");
         paysheetPage.clickOK();
     }
 }

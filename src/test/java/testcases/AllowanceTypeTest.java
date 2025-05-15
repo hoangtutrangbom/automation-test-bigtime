@@ -31,15 +31,15 @@ public class AllowanceTypeTest extends BaseTest {
     public void testThemLoaiPhuCap() {
 
         homePage.clickSalary();
-
         allowanceTypePage.clickLoaiPhuCap();
         logger.info("Click vào loại phụ cấp");
+
         allowanceTypePage.clickThem();
         logger.info("Click vào nút thêm");
+        
         allowanceTypePage.clickTenPhuCap();
 
-        // Tạo tên phụ cấp ngẫu nhiên
-        String newName = allowanceTypePage.inputRandomTenPhuCap("Automation test");
+        allowanceTypePage.inputRandomTenPhuCap("Automation test");
         allowanceTypePage.setTienPhuCap();
         allowanceTypePage.clickLoaiPhuCapOptions();
         allowanceTypePage.clickHangThangOption();
@@ -52,7 +52,6 @@ public class AllowanceTypeTest extends BaseTest {
     @Test(priority = 2)
     public void testThemTrungTenLoaiPhuCap() {
         homePage.clickSalary();
-
         allowanceTypePage.clickLoaiPhuCap();
         logger.info("Click vào loại phụ cấp");
         allowanceTypePage.clickThem();
@@ -71,7 +70,6 @@ public class AllowanceTypeTest extends BaseTest {
     @Test(priority = 3)
     public void testSuaTenPhuCap() {
         homePage.clickSalary();
-
         allowanceTypePage.clickLoaiPhuCap();
         allowanceTypePage.clickSua();
         allowanceTypePage.updateRandomTenPhuCap("Automation test");
@@ -79,14 +77,12 @@ public class AllowanceTypeTest extends BaseTest {
     }
 
     @Test(priority = 4)
-    public void testXoaPhuCap() {
+    public void DeleteAllowanceType() {
         homePage.clickSalary();
-
         allowanceTypePage.clickLoaiPhuCap();
         allowanceTypePage.clickXoa();
         allowanceTypePage.clickCo();
         allowanceTypePage.verifyToastXoaThanhCong();
-
     }
 
 }

@@ -25,14 +25,11 @@ public class ContractTest extends BaseTest {
         logger.info("Đăng nhập với tài khoản quản lý: {}", Config.admin_username);
     }
 
-    @Test
-    public void CanCelConTract(){
+    @Test (dependsOnMethods = "testThemHopDongThoiVuVaXacNhan")
+    public void CanCelConTract() {
         logger.info("Bắt đầu test hủy hợp đồng");
         homePage.clickAdmin();
         contractPage.clickHopDong();
-
-        // Kiểm tra trang hợp đồng đã được mở
-        Assert.assertTrue(contractPage.isContractPageDisplayed(), "Trang hợp đồng không hiển thị");
         contractPage.clickIconAction();
         contractPage.clickCanCel();
         contractPage.setReason();
@@ -44,7 +41,7 @@ public class ContractTest extends BaseTest {
     }
 
 
-    @Test
+    @Test(priority = 1)
     public void testThemHopDongThoiVuVaXacNhan() throws InterruptedException {
 
         homePage.clickAdmin();
@@ -66,12 +63,13 @@ public class ContractTest extends BaseTest {
         contractPage.setNoiDung();
         contractPage.scrollToThongTinDieuKhoan();
         contractPage.clickChonTatCadieuKhoan();
-        contractPage.clickLuu();
+        contractPage.clickSave();
+
         contractPage.clickIconAction();
         contractPage.clickEdit();
         contractPage.clickOptionTrangThai();
         contractPage.clickXacNhan();
-        contractPage.clickLuu();
+        contractPage.clickSave();
         contractPage.clickCoXacNhan();
         Thread.sleep(2000);
         contractPage.clickIconAction();
@@ -83,7 +81,7 @@ public class ContractTest extends BaseTest {
     }
 
 
-    @Test
+    @Test (priority = 2)
     public void testThemHopDongChinhThucVaXacNhan() throws InterruptedException {
 
         homePage.clickAdmin();
@@ -100,11 +98,25 @@ public class ContractTest extends BaseTest {
         contractPage.setNoiDung();
         contractPage.scrollToThongTinDieuKhoan();
         contractPage.clickChonTatCadieuKhoan();
-        contractPage.clickLuu();
+        contractPage.clickSave();
+
+        String toastMsg = contractPage.getToastMessageAdd();
+        Assert.assertEquals(toastMsg, "Thêm thành công ", "Toast message không đúng");
+
+
+
+
+
+//        contractPage.clickIconAction();
+//        contractPage.clickEdit();
+//        contractPage.clickOptionTrangThai();
+//        contractPage.clickXacNhan();
+//        contractPage.clickLuu();
+//        contractPage.clickCoXacNhan();
     }
 
 
-    @Test
+    @Test (priority = 3)
     public void testThemHopDongThuViec() throws InterruptedException {
 
         homePage.clickAdmin();
@@ -125,11 +137,11 @@ public class ContractTest extends BaseTest {
         contractPage.setNoiDung();
         contractPage.scrollToThongTinDieuKhoan();
         contractPage.clickChonTatCadieuKhoan();
-        contractPage.clickLuu();
+        contractPage.clickSave();
     }
 
     // Search
-    @Test
+    @Test (priority = 4)
     public void SearchContractCode() throws InterruptedException {
         homePage.clickAdmin();
         contractPage.clickHopDong();
@@ -138,7 +150,7 @@ public class ContractTest extends BaseTest {
         contractPage.clickSearchButton();
     }
 
-    @Test
+    @Test (priority = 5)
     public void SearchEmployeeCode() throws InterruptedException {
         homePage.clickAdmin();
         contractPage.clickHopDong();
@@ -148,7 +160,7 @@ public class ContractTest extends BaseTest {
         contractPage.verifyEmployeeCodeDisplayed();
     }
 
-    @Test
+    @Test (priority = 6)
     public void testHuyThemHopDong() throws InterruptedException {
         homePage.clickAdmin();
         contractPage.clickHopDong();

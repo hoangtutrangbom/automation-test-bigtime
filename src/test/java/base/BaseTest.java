@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 
-
 public class BaseTest {
 
     protected static final Logger logger = LogManager.getLogger(BaseTest.class);
@@ -19,10 +18,9 @@ public class BaseTest {
         logger.info("WebDriver đã được khởi tạo thành công cho: {}", browser);
     }
 
-
     @AfterMethod
     public void teardown() throws InterruptedException {
         logger.info("Đóng WebDriver");
-//        DriverFactory.quitDriver();
+        DriverFactory.quitDriver();
     }
 }
