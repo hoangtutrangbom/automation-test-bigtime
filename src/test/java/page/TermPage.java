@@ -4,6 +4,7 @@ import base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.DataGenerator;
 
 public class TermPage extends BasePage {
@@ -39,6 +40,37 @@ public class TermPage extends BasePage {
     @FindBy(xpath = "//span[contains(normalize-space(),'Có')]")
     private WebElement btnCo;
 
+    @FindBy(xpath = "//div[contains(text(),'Cập nhật thành công')]")
+    private WebElement toastUpdateSuccess;
+
+    @FindBy(xpath = "//div[contains(text(),'Xóa thành công')]")
+    private WebElement toastDeleteSuccess;
+
+    @FindBy(xpath = "//div[contains(text(),'Thêm thành công')]")
+    private WebElement toastAddSuccess;
+
+    private void waitForToast(WebElement toast) {
+        wait.until(ExpectedConditions.visibilityOf(toast));
+        wait.until(ExpectedConditions.invisibilityOf(toast));
+    }
+
+    public String getToastMessageAdd() {
+        waitForToast(toastAddSuccess);
+        return toastAddSuccess.getText();
+    }
+
+    public String getToastMessageUpdate() {
+        waitForToast(toastUpdateSuccess);
+        return toastUpdateSuccess.getText();
+    }
+
+    public String getToastMessageDelete() {
+        waitForToast(toastDeleteSuccess);
+        String text = toastDeleteSuccess.getText();
+        logger.info("Tost delete message: " + text);
+        return text;
+    }
+
     public void clickCo() {
         clickElementByJS(btnCo);
     }
@@ -72,8 +104,6 @@ public class TermPage extends BasePage {
     }
 
     public String inputRandomTieuDe(String prefix) {
-        String randomName = DataGenerator.generateUniqueName(prefix);
-        actions.moveToElement(inputDieuKhoan).click().sendKeys(randomName).perform();
-        return randomName;
+        return setRandomValue(inputDieuKhoan, prefix);
     }
 }

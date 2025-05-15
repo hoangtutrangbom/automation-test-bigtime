@@ -1,4 +1,5 @@
 package page;
+
 import base.BasePage;
 import helpers.VerifyHelper;
 import org.apache.logging.log4j.LogManager;
@@ -10,7 +11,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.DataGenerator;
+
 import java.time.Duration;
+
 import static org.testng.Assert.assertTrue;
 
 public class AllowanceTypePage extends BasePage {
@@ -101,10 +104,7 @@ public class AllowanceTypePage extends BasePage {
     }
 
     public String inputRandomTenPhuCap(String prefix) {
-        String randomName = DataGenerator.generateUniqueName(prefix);
-        TenPhuCap_Input.clear();
-        TenPhuCap_Input.sendKeys(randomName);
-        return randomName;
+        return setRandomValue(TenPhuCap_Input, prefix);
     }
 
 

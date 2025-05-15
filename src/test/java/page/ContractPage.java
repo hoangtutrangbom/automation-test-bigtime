@@ -115,6 +115,36 @@ public class ContractPage extends BasePage {
     @FindBy(xpath = "//span[contains(normalize-space(),'Có')]")
     private WebElement btnOK;
 
+    @FindBy(xpath = "//div[contains(text(),'Cập nhật thành công')]")
+    private WebElement toastUpdateSuccess;
+
+    @FindBy(xpath = "//div[contains(text(),'Xóa thành công')]")
+    private WebElement toastDeleteSuccess;
+
+    @FindBy(xpath = "//div[contains(text(),'Thêm thành công')]")
+    private WebElement toastAddSuccess;
+
+
+    private void waitForToast(WebElement toast) {
+        wait.until(ExpectedConditions.visibilityOf(toast));
+        wait.until(ExpectedConditions.invisibilityOf(toast));
+    }
+
+    public String getToastMessageAdd() {
+        waitForToast(toastAddSuccess);
+        return toastAddSuccess.getText();
+    }
+
+    public String getToastMessageUpdate() {
+        waitForToast(toastUpdateSuccess);
+        return toastUpdateSuccess.getText();
+    }
+
+    public String getToastMessageDelete() {
+        waitForToast(toastDeleteSuccess);
+        return toastDeleteSuccess.getText();
+    }
+
     public void clickOK() {
         clickElement(btnOK);
     }
@@ -193,7 +223,7 @@ public class ContractPage extends BasePage {
         actions.moveToElement(btnLichDenNgay).click().build().perform();
     }
 
-    public void clickLuu() {
+    public void clickSave() {
         actions.moveToElement(btnLuu).click().perform();
     }
 

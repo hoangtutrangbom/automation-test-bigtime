@@ -7,6 +7,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.DataGenerator;
 
 import java.time.Duration;
 
@@ -20,7 +21,7 @@ public class BasePage {
     // Constructor
     public BasePage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         this.actions = new Actions(driver);
         this.jsExecutor = (JavascriptExecutor) driver;
         PageFactory.initElements(driver, this);
@@ -104,6 +105,15 @@ public class BasePage {
             return false;
         }
     }
+
+    protected String setRandomValue(WebElement element, String prefix) {
+        // Sinh giá trị ngẫu nhiên
+        String randomValue = DataGenerator.generateUniqueName(prefix);
+        // Gán vào input
+        setText(element, randomValue, false);
+        return randomValue;
+    }
+
 
     // ========== JavaScriptExecutor ==========
 

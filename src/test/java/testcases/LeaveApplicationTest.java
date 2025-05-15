@@ -11,6 +11,7 @@ import page.LoginPage;
 import utils.Config;
 
 public class LeaveApplicationTest extends BaseTest {
+
     private LoginPage loginPage;
     private LeaveApplicationPage leaveApplicationPage;
     private HomePage homePage;
@@ -26,10 +27,6 @@ public class LeaveApplicationTest extends BaseTest {
         driver.get(Config.url);
     }
 
-
-    /**
-     * Test case: Thêm mới đơn nghỉ phép, sửa trạng thái chờ duyệt, sau đó quản lý duyệt đơn
-     */
     @Test//(invocationCount = 2)
     public void testThem_DuyetDonNghiPhep() {
         // Xóa dữ liệu test trước mỗi lần chạy

@@ -11,16 +11,16 @@ public class HomePage extends BasePage {
         super(driver);
     }
 
-    @FindBy(xpath = "//h3[normalize-space()='Quản lý']")
+    @FindBy(xpath = "//span[normalize-space()='Quản lý']")
     private WebElement Admin_Button;
 
-    @FindBy(xpath = "//h3[contains(text(),'Quản lý chấm công')]")
+    @FindBy(xpath = "//span[normalize-space()='Quản lý chấm công']")
     private WebElement TimeKeepingManagement_Button;
 
-    @FindBy(xpath = "//h3[contains(text(),'Lương')]")
+    @FindBy(xpath = "//span[normalize-space()='Lương']")
     private  WebElement Salary_Button;
 
-    @FindBy(xpath = "//h3[contains(text(),'Cài đặt')]")
+    @FindBy(xpath = "//span[normalize-space()='Cài đặt']")
     private  WebElement Setting_Button;
 
     public void clickAdmin() {

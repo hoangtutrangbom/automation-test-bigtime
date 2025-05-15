@@ -146,7 +146,6 @@ public class PaysheetPage extends BasePage {
     }
 
     public void setReason() {
-        wait.until(ExpectedConditions.elementToBeClickable(labelReason));
         labelReason.click();
         inputReason.sendKeys("Automation test");
     }
@@ -158,10 +157,10 @@ public class PaysheetPage extends BasePage {
     public boolean isMaBangLuongHienThi(String maBangLuong) {
         try {
             String text = VerifyBangLuongID.getText();
-            System.out.println("Giá trị hiển thị trong ô bảng lương là: " + text);
+            logger.info("Giá trị hiển thị trong ô bảng lương là: " + text);
             return VerifyBangLuongID.isDisplayed() && text.equals(maBangLuong);
         } catch (NoSuchElementException e) {
-            System.out.println("Không tìm thấy mã bảng lương: " + maBangLuong);
+            logger.error("Không tìm thấy mã bảng lương: " + maBangLuong);
             return false;
         }
     }

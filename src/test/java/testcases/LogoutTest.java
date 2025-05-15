@@ -7,6 +7,7 @@ import page.LogoutPage;
 import utils.Config;
 
 public class LogoutTest extends BaseTest {
+
     private LogoutPage logoutPage;
     private LoginPage loginPage;
 

@@ -3,8 +3,15 @@
     <test name="Test on Chrome">
         <parameter name="browser" value="chrome"/>
         <classes>
-            <class name="testcases.PaysheetTest"/>
             <class name="testcases.AllowanceTypeTest"/>
+            <class name="testcases.ContractTest"/>
+            <class name="testcases.DebtTest"/>
+            <class name="testcases.EvaluationTypeTest"/>
+            <class name="testcases.LeaveApplicationTest"/>
+            <class name="testcases.LoginTest"/>
+            <class name="testcases.LogoutTest"/>
+            <class name="testcases.PaysheetTest"/>
+            <class name="testcases.TermTest"/>
         </classes>
     </test>
 </suite>

@@ -14,7 +14,6 @@ public class DebtPage extends BasePage {
     @FindBy(xpath = "//div[starts-with(text(),'Tạm ứng')]")
     private WebElement TamUng_Button;
 
-
     @FindBy(xpath = "//span[normalize-space()='Thêm']")
     private WebElement Them_Button;
 
@@ -30,10 +29,10 @@ public class DebtPage extends BasePage {
     @FindBy(xpath ="//button[@type='submit']")
     private WebElement Luu_Button;
 
-
     public void clickTamUng() {
         clickElement(TamUng_Button);
     }
+
     public void clickThem() {
         clickElement(Them_Button);
     }
@@ -41,21 +40,27 @@ public class DebtPage extends BasePage {
     public void clickChonNhanVien() {
         clickElement(ChonNhanVien_Input);
     }
+
     public void sendKeysChonNhanVien() {
         setText(ChonNhanVien_Input, "Nguyễn Văn Minh",false);
     }
+
     public void clickTienTamUng() {
         clickElement(TienTamUng_Input);
     }
+
     public void sendKeysTienTamUng() {
         setText(TienTamUng_Input, "1000000",false);
     }
+
     public void clickLuu() {
         clickElement(Luu_Button);
     }
+
     public void clickGhiChu() {
       clickElement(GhiChu_Input);
     }
+
     public void sendKeysGhiChu() {
         setText(GhiChu_Input, "Ghi chú",false);
     }
